@@ -1,0 +1,14 @@
+{
+  "seeds": [
+    24529,
+    24530,
+    24531,
+    24532,
+    24533
+  ],
+  "seed_count": 5,
+  "run_count": 455,
+  "aggregated_run_count": 91,
+  "error_count": 0,
+  "output_dir": "/home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_1/outputs/reproductions/random_projection"
+}

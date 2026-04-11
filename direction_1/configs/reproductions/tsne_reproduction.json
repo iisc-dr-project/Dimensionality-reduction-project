@@ -1,0 +1,159 @@
+{
+  "seed": 24529,
+  "seeds": [
+    24529
+  ],
+  "output_dir": "outputs/reproductions/tsne",
+  "experiments": [
+    {
+      "name": "mnist",
+      "pca_components": 30,
+      "dataset": {
+        "name": "mnist_tsne_reproduction",
+        "task": "visualization",
+        "loader": "mnist_local",
+        "limit": 6000,
+        "params": {
+          "flatten": true,
+          "merge_train_and_test": false,
+          "train_images": "data/raw/mnist/train-images-idx3-ubyte",
+          "train_labels": "data/raw/mnist/train-labels-idx1-ubyte",
+          "test_images": "data/raw/mnist/t10k-images-idx3-ubyte",
+          "test_labels": "data/raw/mnist/t10k-labels-idx1-ubyte"
+        }
+      },
+      "methods": [
+        {
+          "name": "tsne",
+          "base_method": "tsne",
+          "params": {
+            "perplexity": 40,
+            "max_iter": 1000,
+            "early_exaggeration": 4.0,
+            "learning_rate": 100.0,
+            "init": "pca"
+          }
+        },
+        {
+          "name": "isomap",
+          "base_method": "isomap",
+          "params": {
+            "n_neighbors": 12
+          }
+        },
+        {
+          "name": "lle",
+          "base_method": "lle",
+          "params": {
+            "n_neighbors": 12,
+            "method": "standard"
+          }
+        },
+        {
+          "name": "sammon",
+          "base_method": "sammon",
+          "params": {
+            "max_iter": 500,
+            "learning_rate": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "name": "olivetti_faces",
+      "pca_components": 30,
+      "dataset": {
+        "name": "olivetti_faces_tsne_reproduction",
+        "task": "visualization",
+        "loader": "olivetti_faces",
+        "limit": 400,
+        "params": {}
+      },
+      "methods": [
+        {
+          "name": "tsne",
+          "base_method": "tsne",
+          "params": {
+            "perplexity": 40,
+            "max_iter": 1000,
+            "early_exaggeration": 4.0,
+            "learning_rate": 100.0,
+            "init": "pca"
+          }
+        },
+        {
+          "name": "isomap",
+          "base_method": "isomap",
+          "params": {
+            "n_neighbors": 12
+          }
+        },
+        {
+          "name": "lle",
+          "base_method": "lle",
+          "params": {
+            "n_neighbors": 12,
+            "method": "standard"
+          }
+        },
+        {
+          "name": "sammon",
+          "base_method": "sammon",
+          "params": {
+            "max_iter": 500,
+            "learning_rate": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "name": "coil20",
+      "pca_components": 30,
+      "dataset": {
+        "name": "coil20_tsne_reproduction",
+        "task": "visualization",
+        "loader": "coil20_local",
+        "params": {
+          "root": "data/raw/coil20",
+          "pattern": "*.png"
+        }
+      },
+      "methods": [
+        {
+          "name": "tsne",
+          "base_method": "tsne",
+          "params": {
+            "perplexity": 40,
+            "max_iter": 1000,
+            "early_exaggeration": 4.0,
+            "learning_rate": 100.0,
+            "init": "pca"
+          }
+        },
+        {
+          "name": "isomap",
+          "base_method": "isomap",
+          "params": {
+            "n_neighbors": 12
+          }
+        },
+        {
+          "name": "lle",
+          "base_method": "lle",
+          "params": {
+            "n_neighbors": 12,
+            "method": "standard"
+          }
+        },
+        {
+          "name": "sammon",
+          "base_method": "sammon",
+          "params": {
+            "max_iter": 500,
+            "learning_rate": 0.3
+          }
+        }
+      ]
+    }
+  ]
+}

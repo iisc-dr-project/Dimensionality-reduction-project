@@ -1,0 +1,174 @@
+{
+  "seed": 24529,
+  "seeds": [
+    24529,
+    24530,
+    24531
+  ],
+  "output_dir": "outputs/reproductions/cgmvae",
+  "split": {
+    "test_size": 0.2
+  },
+  "benchmark": {
+    "distance_pairs": 12000,
+    "neighborhood_k": 10,
+    "max_pairwise_samples": 700,
+    "max_trustworthiness_samples": 500
+  },
+  "visualization_methods": [],
+  "downstream_methods": [],
+  "multilabel_methods": [
+    {
+      "name": "one_vs_rest_logistic",
+      "base_method": "one_vs_rest_logistic",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {}
+    },
+    {
+      "name": "mlp_multilabel",
+      "base_method": "mlp_multilabel",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001
+      }
+    },
+    {
+      "name": "vae_multilabel",
+      "base_method": "vae_multilabel",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "latent_dim": 32,
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "beta": 0.05
+      }
+    },
+    {
+      "name": "cgmvae_full",
+      "base_method": "cgmvae",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "latent_dim": 32,
+        "label_embedding_dim": 64,
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "beta": 0.05,
+        "use_mixture_prior": true,
+        "use_contrastive": true,
+        "contrastive_weight": 0.1,
+        "temperature": 0.1
+      }
+    },
+    {
+      "name": "cgmvae_no_contrastive",
+      "base_method": "cgmvae",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "latent_dim": 32,
+        "label_embedding_dim": 64,
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "beta": 0.05,
+        "use_mixture_prior": true,
+        "use_contrastive": false,
+        "contrastive_weight": 0.1,
+        "temperature": 0.1
+      }
+    },
+    {
+      "name": "cgmvae_no_mixture",
+      "base_method": "cgmvae",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "latent_dim": 32,
+        "label_embedding_dim": 64,
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "beta": 0.05,
+        "use_mixture_prior": false,
+        "use_contrastive": true,
+        "contrastive_weight": 0.1,
+        "temperature": 0.1
+      }
+    }
+  ],
+  "datasets": [
+    {
+      "name": "synthetic_multilabel",
+      "task": "multilabel_prediction",
+      "loader": "synthetic_multilabel",
+      "params": {
+        "n_samples": 2500,
+        "n_features": 256,
+        "n_classes": 12,
+        "n_labels": 3,
+        "length": 50,
+        "allow_unlabeled": false,
+        "sparse": false
+      }
+    },
+    {
+      "name": "synthetic_image_multilabel",
+      "task": "multilabel_prediction",
+      "loader": "synthetic_image_multilabel",
+      "params": {
+        "n_samples": 2500,
+        "image_size": 16,
+        "n_classes": 6,
+        "min_labels": 1,
+        "max_labels": 3,
+        "noise_std": 0.08
+      }
+    }
+  ]
+}

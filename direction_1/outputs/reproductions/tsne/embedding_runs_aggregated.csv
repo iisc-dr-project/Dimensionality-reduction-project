@@ -1,0 +1,9 @@
+experiment,dataset,method,runs,elapsed_seconds_mean,elapsed_seconds_std
+mnist,mnist_tsne_reproduction,tsne,1,5.9064,0.0
+mnist,mnist_tsne_reproduction,isomap,1,5.1504,0.0
+mnist,mnist_tsne_reproduction,lle,1,8.6022,0.0
+mnist,mnist_tsne_reproduction,sammon,1,388.2011,0.0
+olivetti_faces,olivetti_faces_tsne_reproduction,tsne,1,0.4146,0.0
+olivetti_faces,olivetti_faces_tsne_reproduction,isomap,1,0.0246,0.0
+olivetti_faces,olivetti_faces_tsne_reproduction,lle,1,0.0173,0.0
+olivetti_faces,olivetti_faces_tsne_reproduction,sammon,1,1.9749,0.0

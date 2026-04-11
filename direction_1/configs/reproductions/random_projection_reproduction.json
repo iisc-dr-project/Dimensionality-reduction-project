@@ -1,0 +1,163 @@
+{
+  "seed": 24529,
+  "seeds": [
+    24529,
+    24530,
+    24531,
+    24532,
+    24533
+  ],
+  "output_dir": "outputs/reproductions/random_projection",
+  "pairwise_samples": 4000,
+  "neighborhood_k": 10,
+  "max_pairwise_samples": 700,
+  "test_size": 0.2,
+  "methods": [
+    {
+      "name": "rp",
+      "base_method": "gaussian_random_projection",
+      "params": {}
+    },
+    {
+      "name": "srp",
+      "base_method": "sparse_random_projection",
+      "params": {}
+    },
+    {
+      "name": "pca",
+      "base_method": "pca",
+      "params": {}
+    },
+    {
+      "name": "dct",
+      "base_method": "dct",
+      "params": {}
+    },
+    {
+      "name": "nmf",
+      "base_method": "nmf",
+      "params": {}
+    }
+  ],
+  "experiments": [
+    {
+      "name": "image_clean",
+      "domain": "image",
+      "condition": "clean",
+      "input_shape": [
+        28,
+        28
+      ],
+      "k_values": [
+        10,
+        25,
+        50,
+        100,
+        200,
+        400,
+        700
+      ],
+      "methods": [
+        "rp",
+        "srp",
+        "pca",
+        "dct"
+      ],
+      "dataset": {
+        "name": "mnist_clean_reproduction",
+        "task": "visualization",
+        "loader": "mnist_local",
+        "limit": 3000,
+        "params": {
+          "flatten": true,
+          "merge_train_and_test": true,
+          "train_images": "data/raw/mnist/train-images-idx3-ubyte",
+          "train_labels": "data/raw/mnist/train-labels-idx1-ubyte",
+          "test_images": "data/raw/mnist/t10k-images-idx3-ubyte",
+          "test_labels": "data/raw/mnist/t10k-labels-idx1-ubyte"
+        }
+      }
+    },
+    {
+      "name": "image_noisy",
+      "domain": "image",
+      "condition": "noisy",
+      "input_shape": [
+        28,
+        28
+      ],
+      "k_values": [
+        10,
+        25,
+        50,
+        100,
+        200,
+        400,
+        700
+      ],
+      "methods": [
+        "rp",
+        "srp",
+        "pca",
+        "dct",
+        "nmf"
+      ],
+      "dataset": {
+        "name": "mnist_noisy_reproduction",
+        "task": "visualization",
+        "loader": "mnist_local",
+        "limit": 3000,
+        "params": {
+          "flatten": true,
+          "merge_train_and_test": true,
+          "noise_std": 0.2,
+          "train_images": "data/raw/mnist/train-images-idx3-ubyte",
+          "train_labels": "data/raw/mnist/train-labels-idx1-ubyte",
+          "test_images": "data/raw/mnist/t10k-images-idx3-ubyte",
+          "test_labels": "data/raw/mnist/t10k-labels-idx1-ubyte"
+        }
+      }
+    },
+    {
+      "name": "text_bow",
+      "domain": "text",
+      "condition": "text",
+      "k_values": [
+        10,
+        25,
+        50,
+        100,
+        200,
+        400,
+        700
+      ],
+      "methods": [
+        "rp",
+        "srp",
+        "pca",
+        "dct"
+      ],
+      "dataset": {
+        "name": "twenty_newsgroups_reproduction",
+        "task": "visualization",
+        "loader": "twenty_newsgroups",
+        "limit": 2262,
+        "params": {
+          "subset": "train",
+          "categories": [
+            "comp.graphics",
+            "rec.sport.baseball",
+            "sci.med",
+            "talk.politics.misc"
+          ],
+          "remove": [
+            "headers",
+            "footers",
+            "quotes"
+          ],
+          "max_features": 5000
+        }
+      }
+    }
+  ]
+}

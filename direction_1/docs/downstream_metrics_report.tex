@@ -1,0 +1,135 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\title{Downstream Metrics Report}
+\author{Direction 1 Common Benchmark}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Purpose}
+
+This report explains the downstream metrics in
+\texttt{outputs/direction\_1\_run/downstream\_metrics\_aggregated.csv}.
+Downstream metrics evaluate whether a reduced representation is still useful
+for a later supervised classification task.
+
+For each dataset and method, the benchmark fits a dimensionality-reduction
+method on the training data, transforms the train and test data, trains a
+classifier on the reduced training data, and evaluates predictions on the
+reduced test data. The \texttt{\_mean} columns are averages across seeds, and
+the \texttt{\_std} columns measure variation across seeds.
+
+\section{Metric Definitions}
+
+\begin{longtable}{p{0.22\linewidth} p{0.58\linewidth} p{0.14\linewidth}}
+\toprule
+\textbf{Metric} & \textbf{How it is calculated} & \textbf{Better value} \\
+\midrule
+\endhead
+
+\texttt{accuracy}
+&
+Accuracy is the fraction of test examples whose predicted class exactly
+matches the true class:
+\[
+\mathrm{accuracy} =
+\frac{\#\{\hat{y}_i = y_i\}}{N}.
+\]
+Here $N$ is the number of test examples, $y_i$ is the true class, and
+$\hat{y}_i$ is the predicted class.
+&
+Higher
+\\
+\addlinespace
+
+\texttt{macro\_f1}
+&
+For each class, compute precision, recall, and F1:
+\[
+\mathrm{F1}_c =
+\frac{2 \cdot \mathrm{precision}_c \cdot \mathrm{recall}_c}
+{\mathrm{precision}_c + \mathrm{recall}_c}.
+\]
+Then average F1 equally across classes:
+\[
+\mathrm{macro\_F1} = \frac{1}{C}\sum_{c=1}^{C}\mathrm{F1}_c.
+\]
+Macro F1 is useful when class balance matters because every class receives
+equal weight.
+&
+Higher
+\\
+\addlinespace
+
+\texttt{elapsed\_seconds}
+&
+Runtime for fitting the reduction method, transforming the data, and evaluating
+the downstream classifier:
+\[
+t_{\mathrm{elapsed}} = t_{\mathrm{finish}} - t_{\mathrm{start}}.
+\]
+This measures computational cost, not predictive quality.
+&
+Lower
+\\
+
+\bottomrule
+\end{longtable}
+
+\section{Best Method Per Dataset}
+
+The following table selects the best method using the aggregated mean values.
+For accuracy and macro F1, the highest mean is best. For elapsed time, the
+lowest mean is best.
+
+\begin{longtable}{p{0.22\linewidth} p{0.20\linewidth} p{0.12\linewidth} p{0.30\linewidth} r}
+\toprule
+\textbf{Dataset} & \textbf{Metric} & \textbf{Direction} & \textbf{Best method} & \textbf{Mean} \\
+\midrule
+\endhead
+
+\texttt{digits\_clean} & \texttt{accuracy} & Higher & \texttt{pca\_32} & 0.9578 \\
+\texttt{digits\_clean} & \texttt{macro\_f1} & Higher & \texttt{pca\_32} & 0.9581 \\
+\texttt{digits\_clean} & \texttt{elapsed\_seconds} & Lower & \texttt{pca\_32} & 0.0302 \\
+\addlinespace
+
+\texttt{digits\_noisy} & \texttt{accuracy} & Higher & \texttt{pca\_32} & 0.9478 \\
+\texttt{digits\_noisy} & \texttt{macro\_f1} & Higher & \texttt{pca\_32} & 0.9480 \\
+\texttt{digits\_noisy} & \texttt{elapsed\_seconds} & Lower & \texttt{pca\_32} & 0.0326 \\
+\addlinespace
+
+\texttt{mnist\_local} & \texttt{accuracy} & Higher & \texttt{cnn\_autoencoder\_32} & 0.8817 \\
+\texttt{mnist\_local} & \texttt{macro\_f1} & Higher & \texttt{cnn\_autoencoder\_32} & 0.8812 \\
+\texttt{mnist\_local} & \texttt{elapsed\_seconds} & Lower & \texttt{pca\_32} & 0.0436 \\
+\addlinespace
+
+\texttt{twenty\_newsgroups} & \texttt{accuracy} & Higher & \texttt{pca\_32} & 0.8542 \\
+\texttt{twenty\_newsgroups} & \texttt{macro\_f1} & Higher & \texttt{pca\_32} & 0.8534 \\
+\texttt{twenty\_newsgroups} & \texttt{elapsed\_seconds} & Lower & \texttt{gaussian\_random\_projection\_32} & 0.0078 \\
+
+\bottomrule
+\end{longtable}
+
+\section{Interpretation}
+
+The downstream task asks whether reduced features remain useful for
+classification. In these results, \texttt{pca\_32} performs best on
+\texttt{digits\_clean}, \texttt{digits\_noisy}, and
+\texttt{twenty\_newsgroups} for predictive accuracy and macro F1. On
+\texttt{mnist\_local}, \texttt{cnn\_autoencoder\_32} gives the best predictive
+scores, while \texttt{pca\_32} is fastest.
+
+The runtime winners are not always the predictive winners. Therefore, if the
+goal is accuracy, compare \texttt{accuracy} and \texttt{macro\_f1}; if the goal
+is speed, compare \texttt{elapsed\_seconds}.
+
+\end{document}

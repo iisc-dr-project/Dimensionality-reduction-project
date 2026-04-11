@@ -1,0 +1,376 @@
+{
+  "seed": 24529,
+  "seeds": [
+    24529,
+    24530,
+    24531
+  ],
+  "output_dir": "outputs/direction_1_run",
+  "split": {
+    "test_size": 0.2
+  },
+  "benchmark": {
+    "distance_pairs": 12000,
+    "neighborhood_k": 10,
+    "max_pairwise_samples": 700,
+    "max_trustworthiness_samples": 500
+  },
+  "visualization_methods": [
+    {
+      "name": "pca_2d",
+      "base_method": "pca",
+      "params": {
+        "n_components": 2
+      }
+    },
+    {
+      "name": "gaussian_random_projection_32",
+      "base_method": "gaussian_random_projection",
+      "params": {
+        "n_components": 32
+      }
+    },
+    {
+      "name": "sparse_random_projection_32",
+      "base_method": "sparse_random_projection",
+      "params": {
+        "n_components": 32
+      }
+    },
+    {
+      "name": "tsne_2d",
+      "base_method": "tsne",
+      "params": {
+        "n_components": 2,
+        "perplexity": 30,
+        "init": "pca",
+        "learning_rate": "auto"
+      }
+    },
+    {
+      "name": "umap_2d",
+      "base_method": "umap",
+      "optional_dependency": "umap-learn",
+      "params": {
+        "n_components": 2,
+        "n_neighbors": 15,
+        "min_dist": 0.1
+      }
+    },
+    {
+      "name": "autoencoder_2d",
+      "base_method": "autoencoder",
+      "params": {
+        "latent_dim": 2,
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 20,
+        "batch_size": 128,
+        "learning_rate": 0.001
+      }
+    },
+    {
+      "name": "cnn_autoencoder_2d",
+      "base_method": "autoencoder",
+      "requires_image_like": true,
+      "params": {
+        "architecture": "cnn",
+        "latent_dim": 2,
+        "conv_channels": [
+          16,
+          32
+        ],
+        "epochs": 20,
+        "batch_size": 128,
+        "learning_rate": 0.001
+      }
+    }
+  ],
+  "downstream_methods": [
+    {
+      "name": "pca_32",
+      "base_method": "pca",
+      "params": {
+        "n_components": 32
+      }
+    },
+    {
+      "name": "truncated_svd_32",
+      "base_method": "truncated_svd",
+      "params": {
+        "n_components": 32
+      }
+    },
+    {
+      "name": "gaussian_random_projection_32",
+      "base_method": "gaussian_random_projection",
+      "params": {
+        "n_components": 32
+      }
+    },
+    {
+      "name": "sparse_random_projection_32",
+      "base_method": "sparse_random_projection",
+      "params": {
+        "n_components": 32
+      }
+    },
+    {
+      "name": "autoencoder_32",
+      "base_method": "autoencoder",
+      "params": {
+        "latent_dim": 32,
+        "hidden_dims": [
+          512,
+          256
+        ],
+        "epochs": 20,
+        "batch_size": 128,
+        "learning_rate": 0.001
+      }
+    },
+    {
+      "name": "cnn_autoencoder_32",
+      "base_method": "autoencoder",
+      "requires_image_like": true,
+      "params": {
+        "architecture": "cnn",
+        "latent_dim": 32,
+        "conv_channels": [
+          16,
+          32
+        ],
+        "epochs": 20,
+        "batch_size": 128,
+        "learning_rate": 0.001
+      }
+    }
+  ],
+  "multilabel_methods": [
+    {
+      "name": "one_vs_rest_logistic",
+      "base_method": "one_vs_rest_logistic",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {}
+    },
+    {
+      "name": "mlp_multilabel",
+      "base_method": "mlp_multilabel",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001
+      }
+    },
+    {
+      "name": "cnn_multilabel",
+      "base_method": "cnn_multilabel",
+      "requires_image_like": true,
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "conv_channels": [
+          16,
+          32
+        ],
+        "hidden_dim": 128,
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001
+      }
+    },
+    {
+      "name": "vae_multilabel",
+      "base_method": "vae_multilabel",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "latent_dim": 32,
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "beta": 0.05
+      }
+    },
+    {
+      "name": "cgmvae_full",
+      "base_method": "cgmvae",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "latent_dim": 32,
+        "label_embedding_dim": 64,
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "beta": 0.05,
+        "use_mixture_prior": true,
+        "use_contrastive": true,
+        "contrastive_weight": 0.1,
+        "temperature": 0.1
+      }
+    },
+    {
+      "name": "cgmvae_no_contrastive",
+      "base_method": "cgmvae",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "latent_dim": 32,
+        "label_embedding_dim": 64,
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "beta": 0.05,
+        "use_mixture_prior": true,
+        "use_contrastive": false,
+        "contrastive_weight": 0.1,
+        "temperature": 0.1
+      }
+    },
+    {
+      "name": "cgmvae_no_mixture",
+      "base_method": "cgmvae",
+      "fractions": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "params": {
+        "latent_dim": 32,
+        "label_embedding_dim": 64,
+        "hidden_dims": [
+          256,
+          128
+        ],
+        "epochs": 25,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "beta": 0.05,
+        "use_mixture_prior": false,
+        "use_contrastive": true,
+        "contrastive_weight": 0.1,
+        "temperature": 0.1
+      }
+    }
+  ],
+  "datasets": [
+    {
+      "name": "mnist_local",
+      "task": "visualization",
+      "loader": "mnist_local",
+      "limit": 3000,
+      "params": {
+        "flatten": true,
+        "merge_train_and_test": true,
+        "train_images": "data/raw/mnist/train-images-idx3-ubyte",
+        "train_labels": "data/raw/mnist/train-labels-idx1-ubyte",
+        "test_images": "data/raw/mnist/t10k-images-idx3-ubyte",
+        "test_labels": "data/raw/mnist/t10k-labels-idx1-ubyte"
+      }
+    },
+    {
+      "name": "twenty_newsgroups",
+      "task": "visualization",
+      "loader": "twenty_newsgroups",
+      "limit": 2500,
+      "params": {
+        "subset": "train",
+        "categories": [
+          "comp.graphics",
+          "rec.sport.baseball",
+          "sci.med",
+          "talk.politics.misc"
+        ],
+        "remove": [
+          "headers",
+          "footers",
+          "quotes"
+        ],
+        "max_features": 2000
+      }
+    },
+    {
+      "name": "digits_clean",
+      "task": "visualization",
+      "loader": "digits",
+      "limit": 1500,
+      "params": {}
+    },
+    {
+      "name": "digits_noisy",
+      "task": "visualization",
+      "loader": "digits",
+      "limit": 1500,
+      "params": {
+        "noise_std": 1.5
+      }
+    },
+    {
+      "name": "synthetic_multilabel",
+      "task": "multilabel_prediction",
+      "loader": "synthetic_multilabel",
+      "params": {
+        "n_samples": 2500,
+        "n_features": 256,
+        "n_classes": 12,
+        "n_labels": 3,
+        "length": 50,
+        "allow_unlabeled": false,
+        "sparse": false
+      }
+    },
+    {
+      "name": "synthetic_image_multilabel",
+      "task": "multilabel_prediction",
+      "loader": "synthetic_image_multilabel",
+      "params": {
+        "n_samples": 2500,
+        "image_size": 16,
+        "n_classes": 6,
+        "min_labels": 1,
+        "max_labels": 3,
+        "noise_std": 0.08
+      }
+    }
+  ]
+}

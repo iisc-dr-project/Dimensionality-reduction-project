@@ -1,0 +1,9 @@
+experiment,dataset,method,seed,pca_components,elapsed_seconds,n_samples,n_classes
+mnist,mnist_tsne_reproduction,tsne,24529,30,5.9064,6000,10
+mnist,mnist_tsne_reproduction,isomap,24529,30,5.1504,6000,10
+mnist,mnist_tsne_reproduction,lle,24529,30,8.6022,6000,10
+mnist,mnist_tsne_reproduction,sammon,24529,30,388.2011,6000,10
+olivetti_faces,olivetti_faces_tsne_reproduction,tsne,24529,30,0.4146,400,40
+olivetti_faces,olivetti_faces_tsne_reproduction,isomap,24529,30,0.0246,400,40
+olivetti_faces,olivetti_faces_tsne_reproduction,lle,24529,30,0.0173,400,40
+olivetti_faces,olivetti_faces_tsne_reproduction,sammon,24529,30,1.9749,400,40

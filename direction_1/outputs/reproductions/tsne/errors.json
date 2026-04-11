@@ -1,0 +1,8 @@
+[
+  {
+    "experiment": "coil20",
+    "seed": 24529,
+    "stage": "dataset",
+    "error": "No COIL-20 images found in /home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_1/data/raw/coil20 matching pattern '*.png'"
+  }
+]

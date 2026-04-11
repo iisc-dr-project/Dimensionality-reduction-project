@@ -1,0 +1,13 @@
+{
+  "seeds": [
+    24529,
+    24530,
+    24531
+  ],
+  "seed_count": 3,
+  "visualization_runs": 0,
+  "downstream_runs": 0,
+  "multilabel_runs": 108,
+  "error_count": 0,
+  "output_dir": "/home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_1/outputs/reproductions/cgmvae"
+}
