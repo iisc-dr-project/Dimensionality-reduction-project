@@ -21,7 +21,7 @@ from .metrics import (
 )
 from .methods.cgmvae import fit_cgmvae, fit_vae_multilabel
 from .methods.classical import fit_train_test_reducer, fit_visualization_reducer
-from .methods.neural import fit_autoencoder_reducer, fit_cnn_multilabel, fit_mlp_multilabel
+from .methods.neural import fit_autoencoder_reducer, fit_cnn_multilabel, fit_mlp_multilabel, fit_vae_reducer
 from .utils import ensure_directory, import_required, save_csv, save_json, seed_everything
 
 
@@ -105,6 +105,8 @@ def _run_visualization_suite(
             seed_everything(method_seed)
             if method_spec["base_method"] == "autoencoder":
                 embedding, _ = fit_autoencoder_reducer(method_spec, X)
+            elif method_spec["base_method"] == "vae":
+                embedding, _ = fit_vae_reducer(method_spec, X)
             else:
                 embedding, _ = fit_visualization_reducer(method_spec, X)
 

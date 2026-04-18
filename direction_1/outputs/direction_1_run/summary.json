@@ -5,8 +5,8 @@
     24531
   ],
   "seed_count": 3,
-  "visualization_runs": 81,
-  "downstream_runs": 69,
+  "visualization_runs": 93,
+  "downstream_runs": 81,
   "multilabel_runs": 117,
   "error_count": 0,
   "output_dir": "/home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_1/outputs/direction_1_run"

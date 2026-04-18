@@ -38,6 +38,11 @@ def fit_train_test_reducer(method_spec: dict[str, Any], X_train: Any, X_test: An
 
         return fit_autoencoder_reducer(method_spec, X_train, X_test)
 
+    if base_method == "vae":
+        from .neural import fit_vae_reducer
+
+        return fit_vae_reducer(method_spec, X_train, X_test)
+
     X_train_emb = reducer.fit_transform(X_train)
     if not hasattr(reducer, "transform"):
         raise ValueError(f"Reducer '{base_method}' cannot transform held-out data")
@@ -47,6 +52,9 @@ def fit_train_test_reducer(method_spec: dict[str, Any], X_train: Any, X_test: An
 
 def _build_reducer(base_method: str, params: dict[str, Any]) -> Any:
     if base_method == "autoencoder":
+        return object()
+
+    if base_method == "vae":
         return object()
 
     if base_method == "pca":

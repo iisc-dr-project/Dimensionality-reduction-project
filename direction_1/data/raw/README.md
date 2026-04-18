@@ -91,7 +91,3 @@ Needs:
 
 - no external datasets beyond the Python environment
 - current config uses synthetic datasets generated in code
-
-## Note
-
-`requirements.txt` can list Python packages, but not datasets. This file is the authoritative data-dependency manifest for the project.

@@ -14,6 +14,96 @@ def fit_autoencoder_reducer(method_spec: dict[str, Any], X_train: Any, X_test: A
     return _fit_mlp_autoencoder_reducer(method_spec, X_train, X_test)
 
 
+def fit_vae_reducer(method_spec: dict[str, Any], X_train: Any, X_test: Any | None = None) -> tuple[Any, Any | None]:
+    """Train a Gaussian VAE and return latent means for train and test."""
+    np = import_required("numpy")
+    torch = import_required("torch")
+    nn = import_required("torch.nn")
+    data_utils = import_required("torch.utils.data")
+
+    params = method_spec.get("params", {})
+    X_train_np = np.asarray(to_dense_array(X_train), dtype=np.float32)
+    X_test_np = None if X_test is None else np.asarray(to_dense_array(X_test), dtype=np.float32)
+
+    hidden_dims = list(params.get("hidden_dims", [256, 128]))
+    latent_dim = int(params.get("latent_dim", 2))
+    epochs = int(params.get("epochs", 20))
+    batch_size = int(params.get("batch_size", 128))
+    learning_rate = float(params.get("learning_rate", 1e-3))
+    beta = float(params.get("beta", 0.05))
+
+    mean = X_train_np.mean(axis=0, keepdims=True)
+    std = X_train_np.std(axis=0, keepdims=True) + 1e-6
+    X_train_scaled = (X_train_np - mean) / std
+    X_test_scaled = None if X_test_np is None else (X_test_np - mean) / std
+
+    class VariationalAutoencoder(nn.Module):
+        def __init__(self, input_dim: int) -> None:
+            super().__init__()
+
+            encoder_layers: list[Any] = []
+            current = input_dim
+            for width in hidden_dims:
+                encoder_layers.append(nn.Linear(current, width))
+                encoder_layers.append(nn.ReLU())
+                current = width
+            self.encoder = nn.Sequential(*encoder_layers)
+            self.mu_head = nn.Linear(current, latent_dim)
+            self.logvar_head = nn.Linear(current, latent_dim)
+
+            decoder_layers: list[Any] = []
+            current = latent_dim
+            for width in reversed(hidden_dims):
+                decoder_layers.append(nn.Linear(current, width))
+                decoder_layers.append(nn.ReLU())
+                current = width
+            decoder_layers.append(nn.Linear(current, input_dim))
+            self.decoder = nn.Sequential(*decoder_layers)
+
+        def reparameterize(self, mu: Any, logvar: Any) -> Any:
+            std = torch.exp(0.5 * logvar)
+            noise = torch.randn_like(std)
+            return mu + noise * std
+
+        def forward(self, batch: Any) -> tuple[Any, Any, Any]:
+            hidden = self.encoder(batch)
+            mu = self.mu_head(hidden)
+            logvar = self.logvar_head(hidden)
+            latent = self.reparameterize(mu, logvar)
+            reconstruction = self.decoder(latent)
+            return mu, reconstruction, _standard_kl(mu, logvar)
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = VariationalAutoencoder(X_train_scaled.shape[1]).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    loss_fn = nn.MSELoss()
+
+    dataset = data_utils.TensorDataset(torch.tensor(X_train_scaled, dtype=torch.float32))
+    loader = data_utils.DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
+    for _ in range(epochs):
+        model.train()
+        for (batch,) in loader:
+            batch = batch.to(device)
+            optimizer.zero_grad()
+            _, reconstruction, kl = model(batch)
+            reconstruction_loss = loss_fn(reconstruction, batch)
+            loss = reconstruction_loss + beta * kl
+            loss.backward()
+            optimizer.step()
+
+    def encode(array: Any) -> Any:
+        model.eval()
+        with torch.no_grad():
+            tensor = torch.tensor(array, dtype=torch.float32, device=device)
+            mu, _, _ = model(tensor)
+            return mu.cpu().numpy()
+
+    train_embedding = encode(X_train_scaled)
+    test_embedding = None if X_test_scaled is None else encode(X_test_scaled)
+    return train_embedding, test_embedding
+
+
 def _fit_mlp_autoencoder_reducer(
     method_spec: dict[str, Any],
     X_train: Any,
@@ -382,3 +472,8 @@ def _reshape_flat_images(array: Any, channels: int, height: int, width: int) -> 
     if reshaped.shape[1] != expected:
         raise ValueError("Input feature dimension does not match the requested image shape")
     return reshaped.reshape(-1, channels, height, width)
+
+
+def _standard_kl(mu: Any, logvar: Any) -> Any:
+    torch = import_required("torch")
+    return -0.5 * torch.mean(1.0 + logvar - mu.pow(2) - logvar.exp())
