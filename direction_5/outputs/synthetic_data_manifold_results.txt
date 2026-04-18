@@ -1,0 +1,23 @@
+Generating 110D Noisy Dataset...
+Running Pure PCA...
+Running Pure t-SNE...
+Running Pure UMAP...
+Running Cascade: PCA -> t-SNE...
+Running Cascade: PCA -> UMAP...
+Running Cascade: PCA -> C-GMVAE...
+
+================================================================================
+Method Architecture            | ARI Score    | Time (s)
+--------------------------------------------------------------------------------
+Pure UMAP                      | 0.9485       | 28.46   
+Cascade: PCA -> UMAP           | 0.9075       | 4.61    
+Pure t-SNE                     | 0.8746       | 16.81   
+Cascade: PCA -> t-SNE          | 0.8722       | 15.57   
+Pure PCA                       | 0.8430       | 0.20    
+Cascade: PCA -> C-GMVAE        | 0.0007       | 32.48   
+================================================================================
+
+Outputs written to:
+  - /home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_5/outputs/synthetic_data_manifold_results.txt
+  - /home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_5/outputs/synthetic_data_manifold_results.csv
+  - /home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_5/outputs/synthetic_data_manifold_plots.png

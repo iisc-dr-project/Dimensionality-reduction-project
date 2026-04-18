@@ -1,0 +1,31 @@
+Loading 20 Newsgroups (TF-IDF)...
+
+==================================================
+TRUE BASELINE: Pure PCA (128 dimensions)
+==================================================
+  -> Training LSTM on Pure PCA (128)...
+  ✅ Pure PCA (128) Final Accuracy: 0.8817 | LSTM Train Time: 64.00s | Eval Time: 6.54s
+
+==================================================
+CASCADED PIPELINES (Targeting 128 dimensions)
+==================================================
+--- Testing PCA(200) -> AE(128) ---
+  -> Training Autoencoder (k=200 to d=128)...
+  -> Training LSTM on PCA(200) + AE(128)...
+  ✅ PCA(200) + AE(128) Final Accuracy: 0.8711 | LSTM Train Time: 56.96s | Eval Time: 1.88s
+
+--- Testing PCA(300) -> AE(128) ---
+  -> Training Autoencoder (k=300 to d=128)...
+  -> Training LSTM on PCA(300) + AE(128)...
+  ✅ PCA(300) + AE(128) Final Accuracy: 0.6923 | LSTM Train Time: 61.09s | Eval Time: 1.88s
+
+--- Testing PCA(500) -> AE(128) ---
+  -> Training Autoencoder (k=500 to d=128)...
+  -> Training LSTM on PCA(500) + AE(128)...
+  ✅ PCA(500) + AE(128) Final Accuracy: 0.6785 | LSTM Train Time: 65.92s | Eval Time: 3.07s
+
+Experiment Complete!
+
+Outputs written to:
+  - /home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_5/outputs/last_experiment_results.txt
+  - /home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_5/outputs/last_experiment_results.csv

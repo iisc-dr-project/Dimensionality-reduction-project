@@ -1,0 +1,19 @@
+Loading dataset...
+Running Pipeline 1: PCA -> 2D
+Running Pipeline 2: t-SNE -> 2D
+Running Pipeline 3: PCA (100) -> t-SNE
+Running Pipeline 4: Random Projection (100) -> t-SNE
+
+================================================================================
+Pipeline             | Time (s)   | Silhouette
+--------------------------------------------------------------------------------
+PCA 2D               | 0.27       | 0.0216    
+t-SNE 2D             | 23.02      | 0.2728    
+PCA + t-SNE          | 18.93      | 0.2809    
+RP + t-SNE           | 22.10      | 0.2430    
+================================================================================
+
+Outputs written to:
+  - /home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_5/outputs/visualization_results.txt
+  - /home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_5/outputs/visualization_results.csv
+  - /home/alifatmi/Documents/oracle 1/oracle/UMC_203_project/direction_5/outputs/visualization_comparison.png
